@@ -3,7 +3,7 @@ from pygame.locals import *
 
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((500, 400), 0, 32)
-pygame.display.set_caption('Animation')
+pygame.display.set_caption('Text Display')
 
 FPS = 30 # frames per second setting
 fpsClock = pygame.time.Clock()
@@ -36,6 +36,11 @@ catx = 10
 caty = 10
 direction = 'right'
 
+fontObj = pygame.font.Font('freesansbold.ttf', 32)
+textSurfaceObj = fontObj.render('Hello world!', True, GREEN, BLUE)
+textRectObj = textSurfaceObj.get_rect()
+textRectObj.center = (200, 150)
+
 while True: #main game loop
 
     if direction == 'right':
@@ -56,6 +61,8 @@ while True: #main game loop
             direction = 'right'
 
     DISPLAYSURF.blit(catImg, (catx, caty))
+
+    DISPLAYSURF.blit(textSurfaceObj, textRectObj)
 
     for event in pygame.event.get():
         if event.type == QUIT:

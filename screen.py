@@ -3,7 +3,10 @@ from pygame.locals import *
 
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((500, 400), 0, 32)
-pygame.display.set_caption('Drawing')
+pygame.display.set_caption('Animation')
+
+FPS = 30 # frames per second setting
+fpsClock = pygame.time.Clock()
 
 BLACK = ( 0, 0, 0)
 WHITE = ( 255, 255, 255)
@@ -28,9 +31,36 @@ pixObj[486][386] = BLACK
 pixObj[488][388] = BLACK
 del pixObj
 
+catImg = pygame.image.load('cat.png')
+catx = 10
+caty = 10
+direction = 'right'
+
 while True: #main game loop
+
+    if direction == 'right':
+        catx += 5
+        if catx == 280:
+            direction = 'down'
+    elif direction == 'down':
+        caty += 5
+        if caty == 220:
+            direction = 'left'
+    elif direction == 'left':
+        catx -= 5
+        if catx == 10:
+            direction = 'up'
+    elif direction == 'up':
+        caty -= 5
+        if caty == 10:
+            direction = 'right'
+
+    DISPLAYSURF.blit(catImg, (catx, caty))
+
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+
     pygame.display.update()
+    fpsClock.tick(FPS)

@@ -20,12 +20,21 @@ LAVA = 5
 
 # dictionary linking resources to colors
 colors = {
-            DIRT : BROWN,
+            DIRT : pygame.image.load('dirt.png'),
             GRASS : GREEN,
             WATER : BLUE,
             COAL : BLACK,
             ROCK : GREY,
             LAVA : RED
+        }
+
+textures = {
+            DIRT : pygame.image.load('dirt.png'),
+            GRASS : pygame.image.load('dirt.png'),
+            WATER : pygame.image.load('dirt.png'),
+            COAL : pygame.image.load('dirt.png'),
+            ROCK : pygame.image.load('dirt.png'),
+            LAVA : pygame.image.load('dirt.png')
         }
 
 tilemap = [
@@ -37,7 +46,7 @@ tilemap = [
         ]
 
 # game dimensions
-TILESIZE = 40
+TILESIZE = 100
 MAPWIDTH = 5
 MAPHEIGHT = 5
 
@@ -106,7 +115,8 @@ while True: #main game loop
 
     for row in range(MAPHEIGHT):
         for column in range(MAPWIDTH):
-            pygame.draw.rect(DISPLAYSURF, colors[tilemap[row][column]], (column*TILESIZE,row*TILESIZE, TILESIZE, TILESIZE))
+            # pygame.draw.rect(DISPLAYSURF, colors[tilemap[row][column]], (column*TILESIZE,row*TILESIZE, TILESIZE, TILESIZE))
+            DISPLAYSURF.blit(textures[tilemap[row][column]], (column*TILESIZE,row*TILESIZE))
 
     pygame.display.update()
     fpsClock.tick(FPS)

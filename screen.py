@@ -10,6 +10,10 @@ BLUE = ( 0, 0, 255)
 BROWN = ( 153, 76, 0)
 GREY = ( 255, 0, 255)
 
+# cloud positions
+cloudx = -200
+cloudy = 0
+
 # constants representing the different resources
 DIRT = 0
 GRASS = 1
@@ -17,6 +21,7 @@ WATER = 2
 COAL = 3
 ROCK = 4
 LAVA = 5
+CLOUD = 6
 
 # game dimensions
 TILESIZE = 20
@@ -40,7 +45,8 @@ textures = {
             WATER : pygame.image.load('water.png'),
             COAL : pygame.image.load('coal.png'),
             ROCK : pygame.image.load('dirt.png'),
-            LAVA : pygame.image.load('dirt.png')
+            LAVA : pygame.image.load('dirt.png'),
+            CLOUD : pygame.image.load('cloud.png')
         }
 
 inventory = {
@@ -69,7 +75,8 @@ DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE + 5
 
 #INVFONT = pygame.font.SysFont("comicsansms",15)
 INVFONT = pygame.font.Font("freesansbold.ttf", 18)
-pygame.display.set_caption('Setup tilemaps')
+pygame.display.set_caption('M I N E C R A F T -- 2 D')
+pygame.display.set_icon(pygame.image.load('player.png'))
 
 FPS = 30 # frames per second setting
 fpsClock = pygame.time.Clock()
@@ -117,6 +124,8 @@ for rw in range(MAPHEIGHT):
 
 while True: #main game loop
 
+    # Clear the screen
+    DISPLAYSURF.fill(BLACK)
     # if direction == 'right':
     #     catx += 5
     #     if catx == 280:
@@ -138,7 +147,7 @@ while True: #main game loop
     #
     # DISPLAYSURF.blit(textSurfaceObj, textRectObj)
 
-    # TODO: text issue when inventory display a number over 10 
+    # TODO: text issue when inventory display a number over 10
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -201,6 +210,15 @@ while True: #main game loop
         textObj = INVFONT.render(str(inventory[item]), True, WHITE, BLACK)
         DISPLAYSURF.blit(textObj,(placePositionInv,MAPHEIGHT*TILESIZE+20))
         placePositionInv += 50
+
+    DISPLAYSURF.blit(textures[CLOUD],(cloudx,cloudy));
+    cloudx += 1
+
+    if cloudx > MAPWIDTH*TILESIZE:
+        cloudy = random.randint(0,MAPHEIGHT*TILESIZE)
+        cloudx = -200
+
+
 
     pygame.display.update()
     fpsClock.tick(FPS)

@@ -8,32 +8,37 @@ RED = ( 255, 0, 0)
 GREEN = ( 0, 255, 0)
 BLUE = ( 0, 0, 255)
 BROWN = ( 153, 76, 0)
+GREY = ( 255, 0, 255)
 
 # constants representing the different resources
 DIRT = 0
 GRASS = 1
 WATER = 2
 COAL = 3
+ROCK = 4
+LAVA = 5
 
 # dictionary linking resources to colors
 colors = {
             DIRT : BROWN,
             GRASS : GREEN,
             WATER : BLUE,
-            COAL : BLACK
+            COAL : BLACK,
+            ROCK : GREY,
+            LAVA : RED
         }
 
 tilemap = [
-            [GRASS, COAL, DIRT],
-            [WATER, WATER, GRASS],
-            [COAL, GRASS, WATER],
-            [DIRT, GRASS, COAL],
-            [GRASS, WATER, DIRT]
+            [GRASS, COAL, DIRT, LAVA, GRASS],
+            [WATER, WATER, GRASS, LAVA, GRASS],
+            [COAL, GRASS, WATER, WATER, ROCK],
+            [DIRT, GRASS, COAL, WATER, ROCK],
+            [GRASS, WATER, DIRT, GRASS, COAL]
         ]
 
 # game dimensions
 TILESIZE = 40
-MAPWIDTH = 3
+MAPWIDTH = 5
 MAPHEIGHT = 5
 
 pygame.init()

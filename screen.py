@@ -43,6 +43,13 @@ textures = {
             LAVA : pygame.image.load('dirt.png')
         }
 
+inventory = {
+            DIRT : 0,
+            GRASS : 0,
+            WATER : 0,
+            COAL : 0
+        }
+
 # tilemap = [
 #             [GRASS, COAL, DIRT, LAVA, GRASS],
 #             [WATER, WATER, GRASS, LAVA, GRASS],
@@ -58,7 +65,10 @@ PLAYER = pygame.image.load('player.png')
 playerPos = [0,0]
 
 pygame.init()
-DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE))
+DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE + 50))
+
+#INVFONT = pygame.font.SysFont("comicsansms",15)
+INVFONT = pygame.font.Font("freesansbold.ttf", 18)
 pygame.display.set_caption('Setup tilemaps')
 
 FPS = 30 # frames per second setting
@@ -128,6 +138,7 @@ while True: #main game loop
     #
     # DISPLAYSURF.blit(textSurfaceObj, textRectObj)
 
+    # TODO: text issue when inventory display a number over 10 
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -142,14 +153,54 @@ while True: #main game loop
                 playerPos[1] -= 1
             elif (event.key == K_DOWN) and playerPos[1] < MAPHEIGHT - 1:
                 playerPos[1] += 1
-        else:
-            print(event)
+            elif event.key == K_SPACE:
+                currentTile = tilemap[playerPos[1]][playerPos[0]]
+                inventory[currentTile] += 1
+                tilemap[playerPos[1]][playerPos[0]] = DIRT
+                print(inventory)
+            # place dirt
+            elif (event.key == K_1):
+                currentTile = tilemap[playerPos[1]][playerPos[0]]
+                if inventory[DIRT] > 0:
+                    inventory[DIRT] -= 1
+                    tilemap[playerPos[1]][playerPos[0]] = DIRT
+                    inventory[currentTile] += 1
+            # place grass
+            elif (event.key == K_2):
+                currentTile = tilemap[playerPos[1]][playerPos[0]]
+                if inventory[GRASS] > 0:
+                    inventory[GRASS] -= 1
+                    tilemap[playerPos[1]][playerPos[0]] = GRASS
+                    inventory[currentTile] += 1
+            elif (event.key == K_3):
+                currentTile = tilemap[playerPos[1]][playerPos[0]]
+                if inventory[WATER] > 0:
+                    inventory[WATER] -= 1
+                    tilemap[playerPos[1]][playerPos[0]] = WATER
+                    inventory[currentTile] += 1
+            elif (event.key == K_4):
+                currentTile = tilemap[playerPos[1]][playerPos[0]]
+                if inventory[COAL] > 0:
+                    inventory[COAL] -= 1
+                    tilemap[playerPos[1]][playerPos[0]] = COAL
+                    inventory[currentTile] += 1
+        # else:
+            #print(event)
 
     for row in range(MAPHEIGHT):
         for column in range(MAPWIDTH):
             # pygame.draw.rect(DISPLAYSURF, colors[tilemap[row][column]], (column*TILESIZE,row*TILESIZE, TILESIZE, TILESIZE))
             DISPLAYSURF.blit(textures[tilemap[row][column]], (column*TILESIZE,row*TILESIZE))
-            DISPLAYSURF.blit(PLAYER,(playerPos[0]*TILESIZE,playerPos[1]*TILESIZE))
+
+    DISPLAYSURF.blit(PLAYER,(playerPos[0]*TILESIZE,playerPos[1]*TILESIZE))
+
+    placePositionInv = 10
+    for item in resources:
+        DISPLAYSURF.blit(textures[item],(placePositionInv,MAPHEIGHT*TILESIZE+20))
+        placePositionInv += 45
+        textObj = INVFONT.render(str(inventory[item]), True, WHITE, BLACK)
+        DISPLAYSURF.blit(textObj,(placePositionInv,MAPHEIGHT*TILESIZE+20))
+        placePositionInv += 50
 
     pygame.display.update()
     fpsClock.tick(FPS)

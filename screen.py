@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, random
 from pygame.locals import *
 
 # constants representing colors
@@ -18,9 +18,14 @@ COAL = 3
 ROCK = 4
 LAVA = 5
 
+# game dimensions
+TILESIZE = 20
+MAPWIDTH = 30
+MAPHEIGHT = 20
+
 # dictionary linking resources to colors
 colors = {
-            DIRT : pygame.image.load('dirt.png'),
+            DIRT : BROWN,
             GRASS : GREEN,
             WATER : BLUE,
             COAL : BLACK,
@@ -28,27 +33,28 @@ colors = {
             LAVA : RED
         }
 
+# TODO: Add diamond resource
 textures = {
             DIRT : pygame.image.load('dirt.png'),
-            GRASS : pygame.image.load('dirt.png'),
-            WATER : pygame.image.load('dirt.png'),
-            COAL : pygame.image.load('dirt.png'),
+            GRASS : pygame.image.load('grass.png'),
+            WATER : pygame.image.load('water.png'),
+            COAL : pygame.image.load('coal.png'),
             ROCK : pygame.image.load('dirt.png'),
             LAVA : pygame.image.load('dirt.png')
         }
 
-tilemap = [
-            [GRASS, COAL, DIRT, LAVA, GRASS],
-            [WATER, WATER, GRASS, LAVA, GRASS],
-            [COAL, GRASS, WATER, WATER, ROCK],
-            [DIRT, GRASS, COAL, WATER, ROCK],
-            [GRASS, WATER, DIRT, GRASS, COAL]
-        ]
+# tilemap = [
+#             [GRASS, COAL, DIRT, LAVA, GRASS],
+#             [WATER, WATER, GRASS, LAVA, GRASS],
+#             [COAL, GRASS, WATER, WATER, ROCK],
+#             [DIRT, GRASS, COAL, WATER, ROCK],
+#             [GRASS, WATER, DIRT, GRASS, COAL]
+#         ]
+resources = [DIRT,GRASS,WATER,COAL]
 
-# game dimensions
-TILESIZE = 100
-MAPWIDTH = 5
-MAPHEIGHT = 5
+tilemap = [ [random.choice(resources) for w in range(MAPWIDTH)] for h in range(MAPHEIGHT) ]
+
+
 
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE))
@@ -56,6 +62,20 @@ pygame.display.set_caption('Setup tilemaps')
 
 FPS = 30 # frames per second setting
 fpsClock = pygame.time.Clock()
+
+# finish tile map
+for rw in range(MAPHEIGHT):
+    for cl in range(MAPWIDTH):
+        randomNumber = random.randint(0,15)
+        if randomNumber == 0:
+            tile = COAL
+        elif randomNumber == 1 or randomNumber == 2:
+            tile = WATER
+        elif randomNumber >= 3 and randomNumber <= 7:
+            tile = GRASS
+        else:
+            tile = DIRT
+        tilemap[rw][cl] = tile
 
 # DISPLAYSURF.fill(WHITE)
 # pygame.draw.polygon(DISPLAYSURF, GREEN, ((146, 0), (291, 106), (236, 277), (56, 277), (0,106)))

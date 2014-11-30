@@ -54,7 +54,8 @@ resources = [DIRT,GRASS,WATER,COAL]
 
 tilemap = [ [random.choice(resources) for w in range(MAPWIDTH)] for h in range(MAPHEIGHT) ]
 
-
+PLAYER = pygame.image.load('player.png')
+playerPos = [0,0]
 
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE))
@@ -132,11 +133,23 @@ while True: #main game loop
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+        elif event.type == KEYDOWN:
+            if (event.key == K_RIGHT) and playerPos[0] < MAPWIDTH - 1:
+                playerPos[0] += 1
+            elif (event.key == K_LEFT) and playerPos[0] > 0:
+                playerPos[0] -= 1
+            elif (event.key == K_UP) and playerPos[1] > 0:
+                playerPos[1] -= 1
+            elif (event.key == K_DOWN) and playerPos[1] < MAPHEIGHT - 1:
+                playerPos[1] += 1
+        else:
+            print(event)
 
     for row in range(MAPHEIGHT):
         for column in range(MAPWIDTH):
             # pygame.draw.rect(DISPLAYSURF, colors[tilemap[row][column]], (column*TILESIZE,row*TILESIZE, TILESIZE, TILESIZE))
             DISPLAYSURF.blit(textures[tilemap[row][column]], (column*TILESIZE,row*TILESIZE))
+            DISPLAYSURF.blit(PLAYER,(playerPos[0]*TILESIZE,playerPos[1]*TILESIZE))
 
     pygame.display.update()
     fpsClock.tick(FPS)

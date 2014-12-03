@@ -47,13 +47,14 @@ colors =    {
 
 # dictionary linking resources to images
 textures = {
-                DIRT    : pygame.image.load('dirt.png'),
-                GRASS   : pygame.image.load('grass.png'),
-                WATER   : pygame.image.load('water.png'),
-                COAL    : pygame.image.load('coal.png'),
-                ROCK    : pygame.image.load('dirt.png'),
-                LAVA    : pygame.image.load('dirt.png'),
-                CLOUD   : pygame.image.load('cloud.png')
+                DIRT    : pygame.image.load('images/dirt.png'),
+                GRASS   : pygame.image.load('images/grass.png'),
+                WATER   : pygame.image.load('images/water.png'),
+                COAL    : pygame.image.load('images/coal.png'),
+                ROCK    : pygame.image.load('images/dirt.png'),
+                SAND    : pygame.image.load('images/dirt.png'),
+                DIAMOND : pygame.image.load('images/dirt.png'),
+                CLOUD   : pygame.image.load('images/cloud.png')
             }
 
 # dictionary linking resources to bag of goods
@@ -98,13 +99,13 @@ craft =     {
                 SAND    : { ROCK : 2 }
             }
 
-resources = [DIRT,GRASS,WATER,COAL]
+resources = [DIRT,GRASS,WATER,COAL,SAND,ROCK,DIAMOND]
 #resources = [DIRT,GRASS,WATER,COAL,WOOD,FIRE,SAND,GLASS,ROCK,STONE,BRICK,DIAMOND]
 
 # creating base map
 tilemap = [ [random.choice(resources) for w in range(MAPWIDTH)] for h in range(MAPHEIGHT) ]
 
-PLAYER = pygame.image.load('player.png')
+PLAYER = pygame.image.load('images/player.png')
 playerPos = [0,0]
 
 pygame.init()
@@ -113,7 +114,7 @@ DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE + 5
 #INVFONT = pygame.font.SysFont("comicsansms",15)
 INVFONT = pygame.font.Font("freesansbold.ttf", 18)
 pygame.display.set_caption('M I N E C R A F T -- 2 D')
-pygame.display.set_icon(pygame.image.load('player.png'))
+pygame.display.set_icon(pygame.image.load('images/player.png'))
 
 FPS = 30 # frames per second setting
 fpsClock = pygame.time.Clock()
@@ -128,6 +129,12 @@ for rw in range(MAPHEIGHT):
             tile = WATER
         elif randomNumber >= 3 and randomNumber <= 7:
             tile = GRASS
+        elif randomNumber >= 8 and randomNumber <= 10:
+            tile = SAND
+        elif randomNumber >= 11 and randomNumber <= 13:
+            tile = ROCK
+        elif randomNumber >= 14 and randomNumber <= 15:
+            tile = DIAMOND
         else:
             tile = DIRT
         tilemap[rw][cl] = tile

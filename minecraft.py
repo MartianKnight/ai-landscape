@@ -119,25 +119,51 @@ pygame.display.set_icon(pygame.image.load('images/player.png'))
 FPS = 30 # frames per second setting
 fpsClock = pygame.time.Clock()
 
+probs =     {
+                DIRT    : 10,
+                GRASS   : 30,
+                WATER   : 20,
+                COAL    : 5,
+                WOOD    : 20,
+                SAND    : 5,
+                ROCK    : 5,
+                DIAMOND : 1
+            }
+
 # finish tile map
+probsTotal = 0
+for test in probs:
+    probsTotal += test
+print(probsTotal)
+
 for rw in range(MAPHEIGHT):
     for cl in range(MAPWIDTH):
-        randomNumber = random.randint(0,15)
-        if randomNumber == 0:
-            tile = COAL
-        elif randomNumber == 1 or randomNumber == 2:
-            tile = WATER
-        elif randomNumber >= 3 and randomNumber <= 7:
-            tile = GRASS
-        elif randomNumber >= 8 and randomNumber <= 10:
-            tile = SAND
-        elif randomNumber >= 11 and randomNumber <= 13:
-            tile = ROCK
-        elif randomNumber >= 14 and randomNumber <= 15:
-            tile = DIAMOND
-        else:
+        randomNumber = random.randint(0,probsTotal)
+        currentProb = 0
+        loopControl = 0
+        for i in probs:
+            if randomNumber == currentProb:
+                tile = probs[i]
+            currentProb += i
+            loopControl += 1
             tile = DIRT
         tilemap[rw][cl] = tile
+
+        # if randomNumber == 0:
+        #     tile = COAL
+        # elif randomNumber == 1 or randomNumber == 2:
+        #     tile = WATER
+        # elif randomNumber >= 3 and randomNumber <= 7:
+        #     tile = GRASS
+        # elif randomNumber >= 8 and randomNumber <= 10:
+        #     tile = SAND
+        # elif randomNumber >= 11 and randomNumber <= 13:
+        #     tile = ROCK
+        # elif randomNumber >= 14 and randomNumber <= 15:
+        #     tile = DIAMOND
+        # else:
+        #     tile = DIRT
+        # tilemap[rw][cl] = tile
 
 # DISPLAYSURF.fill(WHITE)
 # pygame.draw.polygon(DISPLAYSURF, GREEN, ((146, 0), (291, 106), (236, 277), (56, 277), (0,106)))
@@ -237,8 +263,6 @@ while True: #main game loop
     if cloudx > MAPWIDTH*TILESIZE:
         cloudy = random.randint(0,MAPHEIGHT*TILESIZE)
         cloudx = -200
-
-
 
     pygame.display.update()
     fpsClock.tick(FPS)

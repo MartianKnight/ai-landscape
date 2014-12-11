@@ -99,6 +99,55 @@ craft =     {
                 SAND    : { ROCK : 2 }
             }
 
+class Player(pygame.sprite.Sprite):
+
+    # Set speed vector
+    change_x = 0
+    change_y = 0
+    walls = None
+
+    def __init__(self, x, y):
+        # Call the parent's constructor
+        super().__init__()
+
+        # TODO: insert player sprite
+        self.image = pygame.Surface([15, 15])
+        self.image.fill(WHITE)
+
+        # Pass in the top-left corner location
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = x
+
+    def changespeed(self, x, y):
+        """ Change the speed of the Player """
+        self.change_x += x
+        self.change_y += y
+
+    def update(self):
+        """ """
+        # Move left/right
+        self.rect.x += self.change_x
+
+        # Check for sprite collision
+        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
+        for block in block_hit_list:
+            #
+            if self.change_x > 0:
+                self.rect.right = block.rect.left
+            else:
+                self.rect.left = block.rect.right
+
+        self.rect.y += self.change_y
+
+        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
+        for block in block_hit_list:
+            #
+            if self.change_y > 0:
+                self.rect.bottom = block.rect.top
+            else:
+                self.rect.top = block.rect.bottom
+
 resources = [DIRT,GRASS,WATER,COAL,SAND,ROCK,DIAMOND]
 #resources = [DIRT,GRASS,WATER,COAL,WOOD,FIRE,SAND,GLASS,ROCK,STONE,BRICK,DIAMOND]
 
@@ -111,12 +160,47 @@ playerPos = [1,1]
 ENEMY = pygame.image.load('images/player.png')
 enemyPos = [25,25]
 
+def main():
+    random.seed()
+    pygame.init()
+
+def load_image(file_name, colorkey=None):
+    full_name = os.path.join('data', file_name)
+
+    try:
+        image = pygame.image.load(full_name)
+    except pygame.error, message:
+        print 'Cannot Load Image: ', full_name
+        raise SystemExit, message
+
+    image = image.convert()
+
+    if colorkey is not None:
+        if colorkey is -1:
+            colorkey = image.get_at((0,0))
+        image.set_color(colorkey, RLEACCEL)
+
+    return image, image.get_rect()
+
+def load_sound(name):
+    class No_Sound:
+        def play(self): pass
+
+    if not pygame.mixer or not pygame.mixer.get_init():
+        return No_Sound()
+
+    fullname = os.path.join('data', name)
+    if os.path.exists(full_name)
+
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE + 50))
+#DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE + 50), FULLSCREEN)
+
 
 #INVFONT = pygame.font.SysFont("comicsansms",15)
 INVFONT = pygame.font.Font("freesansbold.ttf", 18)
 pygame.display.set_caption('M I N E C R A F T -- 2 D')
+pygame.mouse.set_visible(False)
 pygame.display.set_icon(pygame.image.load('images/player.png'))
 
 FPS = 30 # frames per second setting
@@ -280,3 +364,5 @@ while True: #main game loop
 
     pygame.display.update()
     fpsClock.tick(FPS)
+
+if __name__ == '__main__': main()

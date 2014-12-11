@@ -106,7 +106,10 @@ resources = [DIRT,GRASS,WATER,COAL,SAND,ROCK,DIAMOND]
 tilemap = [ [random.choice(resources) for w in range(MAPWIDTH)] for h in range(MAPHEIGHT) ]
 
 PLAYER = pygame.image.load('images/player.png')
-playerPos = [0,0]
+playerPos = [1,1]
+
+ENEMY = pygame.image.load('images/player.png')
+enemyPos = [25,25]
 
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE + 50))
@@ -198,7 +201,7 @@ while True: #main game loop
     DISPLAYSURF.fill(BLACK)
 
     for event in pygame.event.get():
-        print(event)
+        #print(event)
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
@@ -241,12 +244,23 @@ while True: #main game loop
         # else:
             #print(event)
 
+    if (playerPos[0] > enemyPos[0]):
+        enemyPos[0] += 1
+    elif (playerPos[0] < enemyPos[0]):
+        enemyPos[0] -= 1
+    if (playerPos[1] > enemyPos[1]):
+        enemyPos[1] += 1
+    elif (playerPos[1] < enemyPos[1]):
+        enemyPos[1] -= 1
+
     for row in range(MAPHEIGHT):
         for column in range(MAPWIDTH):
             # pygame.draw.rect(DISPLAYSURF, colors[tilemap[row][column]], (column*TILESIZE,row*TILESIZE, TILESIZE, TILESIZE))
             DISPLAYSURF.blit(textures[tilemap[row][column]], (column*TILESIZE,row*TILESIZE))
 
     DISPLAYSURF.blit(PLAYER,(playerPos[0]*TILESIZE,playerPos[1]*TILESIZE))
+    DISPLAYSURF.blit(ENEMY,(enemyPos[0]*TILESIZE,enemyPos[1]*TILESIZE))
+
 
     placePositionInv = 10
     for item in resources:

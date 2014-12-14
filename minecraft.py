@@ -108,7 +108,7 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, x, y):
         # Call the parent's constructor
-        super().__init__()
+        pygame.sprite.Sprite.__init__(self)
 
         # TODO: insert player sprite
         self.image = pygame.Surface([15, 15])
@@ -148,17 +148,40 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.rect.top = block.rect.bottom
 
-resources = [DIRT,GRASS,WATER,COAL,SAND,ROCK,DIAMOND]
-#resources = [DIRT,GRASS,WATER,COAL,WOOD,FIRE,SAND,GLASS,ROCK,STONE,BRICK,DIAMOND]
+#player = Player(50, 50)
+#player.walls = wall_list
 
-# creating base map
-tilemap = [ [random.choice(resources) for w in range(MAPWIDTH)] for h in range(MAPHEIGHT) ]
+all_sprite_list = pygame.sprite.Group()
+#all_sprite_list.add(player)
 
-PLAYER = pygame.image.load('images/player.png')
-playerPos = [1,1]
+class Wall(pygame.sprite.Sprite):
+    """ Wall """
+    def __init__(self, x, y, width, height):
+        """ Constructor """
+        # Call the parent's constructor
+        pygame.sprite.Sprite.__init__(self)
 
-ENEMY = pygame.image.load('images/player.png')
-enemyPos = [25,25]
+        self.image = pygame.Surface([width, height])
+        self.image.fill(BLUE)
+
+        # Make our top-left corner the passed-in location
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = x
+
+wall_list = pygame.sprite.Group()
+
+wall = Wall(0, 0, 10, 600)
+wall_list.add(wall)
+all_sprite_list.add(wall)
+
+wall = Wall(10, 0, 790, 10)
+wall_list.add(wall)
+all_sprite_list.add(wall)
+
+wall = Wall(10, 200, 100, 10)
+wall_list.add(wall)
+all_sprite_list.add(wall)
 
 def main():
     random.seed()
@@ -191,6 +214,19 @@ def load_sound(name):
 
     fullname = os.path.join('data', name)
     # if os.path.exists(full_name)
+
+
+resources = [DIRT,GRASS,WATER,COAL,SAND,ROCK,DIAMOND]
+#resources = [DIRT,GRASS,WATER,COAL,WOOD,FIRE,SAND,GLASS,ROCK,STONE,BRICK,DIAMOND]
+
+# creating base map
+tilemap = [ [random.choice(resources) for w in range(MAPWIDTH)] for h in range(MAPHEIGHT) ]
+
+PLAYER = pygame.image.load('images/player.png')
+playerPos = [1,1]
+
+ENEMY = pygame.image.load('images/player.png')
+enemyPos = [25,25]
 
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE + 50))

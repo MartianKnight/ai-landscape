@@ -60,8 +60,8 @@ textures = {
 # dictionary linking resources to bag of goods
 inventory = {
                 DIRT    : 0,
-                GRASS   : 0,
-                WATER   : 0,
+                GRASS   : 20,
+                WATER   : 20,
                 COAL    : 0,
                 WOOD    : 0,
                 FIRE    : 0,
@@ -190,7 +190,7 @@ def load_sound(name):
         return No_Sound()
 
     fullname = os.path.join('data', name)
-    if os.path.exists(full_name)
+    # if os.path.exists(full_name)
 
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE, MAPHEIGHT*TILESIZE + 50))
@@ -236,21 +236,21 @@ for rw in range(MAPHEIGHT):
             tile = DIRT
         tilemap[rw][cl] = tile
 
-        # if randomNumber == 0:
-        #     tile = COAL
-        # elif randomNumber == 1 or randomNumber == 2:
-        #     tile = WATER
-        # elif randomNumber >= 3 and randomNumber <= 7:
-        #     tile = GRASS
-        # elif randomNumber >= 8 and randomNumber <= 10:
-        #     tile = SAND
-        # elif randomNumber >= 11 and randomNumber <= 13:
-        #     tile = ROCK
-        # elif randomNumber >= 14 and randomNumber <= 15:
-        #     tile = DIAMOND
-        # else:
-        #     tile = DIRT
-        # tilemap[rw][cl] = tile
+        if randomNumber == 0:
+            tile = COAL
+        elif randomNumber == 1 or randomNumber == 2:
+            tile = WATER
+        elif randomNumber >= 3 and randomNumber <= 7:
+            tile = GRASS
+        elif randomNumber >= 8 and randomNumber <= 10:
+            tile = SAND
+        elif randomNumber >= 11 and randomNumber <= 13:
+            tile = ROCK
+        elif randomNumber >= 14 and randomNumber <= 15:
+            tile = DIAMOND
+        else:
+            tile = DIRT
+        tilemap[rw][cl] = tile
 
 # DISPLAYSURF.fill(WHITE)
 # pygame.draw.polygon(DISPLAYSURF, GREEN, ((146, 0), (291, 106), (236, 277), (56, 277), (0,106)))
@@ -365,4 +365,4 @@ while True: #main game loop
     pygame.display.update()
     fpsClock.tick(FPS)
 
-if __name__ == '__main__': main()
+#if __name__ == '__main__': main()

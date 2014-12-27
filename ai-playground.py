@@ -151,6 +151,7 @@ score = 0
 
 
 # Make the walls. (x_pos, y_pos, width, height)
+# Walls are now unlocked 
 wall_list = pygame.sprite.Group()
 wall = Wall(0, 0, 10, 600)
 wall_list.add(wall)
@@ -159,6 +160,9 @@ wall = Wall(10, 0, 790, 10)
 wall_list.add(wall)
 all_sprites_lists.add(wall)
 wall = Wall(10, 200, 100, 10)
+wall_list.add(wall)
+all_sprites_lists.add(wall)
+wall = Wall(150, 400, 100, 10)
 wall_list.add(wall)
 all_sprites_lists.add(wall)
 
